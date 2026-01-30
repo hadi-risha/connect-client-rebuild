@@ -10,11 +10,11 @@ import { cancelBookingApi, getStudentBookedSessionsApi, getStudentBookingByIdApi
 import { addOrUpdateStudentBooking, setStudentBookings } from "../../features/booking/bookingSlice";
 import { showError, showSuccess } from "../../utils/toast";
 
-interface Props {
-  onCancelBooking?: (payload: CancelBookingPayload) => void;
-}
+// interface Props {
+//   onCancelBooking?: (payload: CancelBookingPayload) => void;
+// }
 
-const StudentBookingDetailsPage = ({ onCancelBooking }: Props) => {
+const StudentBookingDetailsPage = () => {
   const { bookingId } = useParams<{ bookingId: string }>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

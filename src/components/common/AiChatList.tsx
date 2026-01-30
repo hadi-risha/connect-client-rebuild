@@ -21,8 +21,11 @@ const AiChatList = () => {
         const response = await getUserAiChatsApi();
         return response.data.userChats;
         
-      } catch (err) {
-        throw new Error(err.message || "Failed to fetch data");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          throw new Error(err.message || "Failed to fetch data");
+        }
+        throw new Error("Failed to fetch data"); // fallback for non-Error objects
       }
     },
   });
@@ -31,8 +34,11 @@ const AiChatList = () => {
     try {
         await rateAiApi(rating)
         showSuccess("Thanks for your feedback");
-      } catch (error) {
-        throw new Error(error.message || "Failed to submit rating");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          throw new Error(err.message || "Failed to submit rating");
+        }
+        throw new Error("Failed to submit rating");
       }
   };
 

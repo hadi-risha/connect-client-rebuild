@@ -12,6 +12,22 @@ interface Props {
   onClose: () => void;
 }
 
+interface InstructorPayload {
+  role: "instructor";
+  instructorProfile: {
+    bio: string;
+    expertise: string;
+  };
+  imageFile?: File;
+  removePhoto?: boolean;
+}
+
+interface StudentPayload {
+  role: "student";
+}
+
+type RoleSwitchPayload = InstructorPayload | StudentPayload;
+
 const RoleSwitchDropdown = ({ onClose }: Props) => {
   const navigate = useNavigate();
 
@@ -20,7 +36,8 @@ const RoleSwitchDropdown = ({ onClose }: Props) => {
   const [showInstructorModal, setShowInstructorModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const handleSwitch = async (payload) => {
+  // const handleSwitch = async (payload) => {
+  const handleSwitch = async (payload: RoleSwitchPayload) => {
     const res = await performRoleSwitch(dispatch, payload);
 
     if (!res.success) {

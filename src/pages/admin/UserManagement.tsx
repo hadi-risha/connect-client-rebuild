@@ -10,6 +10,7 @@ import {
   adminToggleBlock,
   adminToggleRole,
 } from "../../api/admin.api";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 interface IUser {
   _id: string;
@@ -31,8 +32,8 @@ const UserManagement = () => {
       try {
         const { data } = await adminGetUsers();
         setUsers(data.users); 
-      } catch (err: any) {
-        showError(err.response?.data?.message || "Failed to fetch users");
+      } catch (err: unknown) {
+        showError(getErrorMessage(err) || "Failed to fetch users");
       } finally {
         setLoading(false);
       }
@@ -163,8 +164,8 @@ const UserManagement = () => {
           prev.map((u) => (u._id === updatedUser._id ? updatedUser : u))
         );
       }
-    } catch (err: any) {
-      showError(err.response?.data?.message || "Action failed");
+    } catch (err: unknown) {
+      showError(getErrorMessage(err) || "Action failed");
     } finally {
       setActionLoading(false);
       setActionUser(null);
@@ -185,19 +186,25 @@ const UserManagement = () => {
       }
       filters={
         <>
-          <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value as any)} className="border px-3 py-2 rounded-md">
+          <select value={roleFilter}  
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRoleFilter(e.target.value as "" | IUser["role"]) } 
+          className="border px-3 py-2 rounded-md">
             <option value="">All Roles</option>
             <option value="student">Student</option>
             <option value="instructor">Instructor</option>
           </select>
 
-          <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as any)} className="border px-3 py-2 rounded-md">
+          <select value={statusFilter} 
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStatusFilter(e.target.value as "" | "blocked" | "active")}
+          className="border px-3 py-2 rounded-md">
             <option value="">All Status</option>
             <option value="active">Active</option>
             <option value="blocked">Blocked</option>
           </select>
 
-          <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value as any)} className="border px-3 py-2 rounded-md">
+          <select value={sortOrder} 
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSortOrder(e.target.value as "" | "nameAsc" | "nameDesc")}
+          className="border px-3 py-2 rounded-md">
             <option value="">Sort</option>
             <option value="nameAsc">Name A–Z</option>
             <option value="nameDesc">Name Z–A</option>

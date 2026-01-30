@@ -74,7 +74,7 @@ const ArchivedSessions = () => {
                 extraAction={{
                   icon: <RotateCcw size={20} />,
                   title: "Restore session",
-                  onClick: () => handleRestoreClick(s._id),
+                  onClick: () => s._id && handleRestoreClick(s._id)
                 }}
               />
             ))}

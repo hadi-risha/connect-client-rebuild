@@ -24,9 +24,12 @@ const AiDashboardPage = () => {
     },
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const text = e.target.text.value;
+
+    const form = e.currentTarget;
+    const text = (form.elements.namedItem("text") as HTMLInputElement).value;
+
     if (!text) return;
     mutation.mutate(text);
   }; 

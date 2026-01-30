@@ -5,6 +5,7 @@ import { createPaymentIntentApi } from "../../api/student.api";
 import { showError } from "../../utils/toast";
 import { useEffect, useState } from "react";
 import CheckoutForm from "../../components/student/CheckoutForm";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 const ConfirmBooking = () => {
   const { sessionId } = useParams();
@@ -29,8 +30,9 @@ const ConfirmBooking = () => {
         });
 
         setClientSecret(res.data.clientSecret);
-      } catch (err: any) {
-        showError(err.response?.data?.message || "Payment failed");
+      } catch (err: unknown) {
+        // showError(err.response?.data?.message || "Payment failed");
+        showError(getErrorMessage(err) || "Payment failed");
         navigate(-1);
       }
     };

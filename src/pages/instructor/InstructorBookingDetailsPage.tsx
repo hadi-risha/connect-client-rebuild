@@ -10,7 +10,7 @@ const InstructorBookingDetailsPage = () => {
   const { instructorBookings } = useAppSelector((s) => s.bookings);
   const booking = instructorBookings.find((b) => b._id === bookingId);
 
-  if (!instructorBookings.length) {
+  if (!instructorBookings.length || !booking) {
     return (
       <EmptyState
         icon={<CalendarCheck size={48} />}

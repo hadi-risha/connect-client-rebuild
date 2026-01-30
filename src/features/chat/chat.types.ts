@@ -15,7 +15,7 @@ export interface MessageReaction {
 export interface Message {
   _id: string;
   chatRoom: string;
-  sender: ChatUser;
+  sender: ChatUser; // given the str for fsllbsck
   type: "text" | "image" | "audio";
   content?: string;
   image?: { url: string };
@@ -34,7 +34,7 @@ export interface ChatRoom {
   admins?: ChatUser[];
   name?: string;
   description?: string;
-  image?: { url?: string };
+  image?: { url?: string; key?: string; };
   isPublic?: boolean;
   lastMessage?: Message;
   lastRead?: {

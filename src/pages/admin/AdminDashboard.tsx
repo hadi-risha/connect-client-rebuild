@@ -14,25 +14,37 @@ import {
   Pie,
   Cell,
 } from "recharts";
+import type { DashboardData, RecentBooking } from "../../types/adminDashboard";
 
 const COLORS = ["#4f46e5", "#16a34a"];
 
+interface CardProps {
+  title: string;
+  value: number;
+}
+
+interface RecentBookingsProps {
+  bookings: RecentBooking[];
+}
+
 const AdminDashboard = () => {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [start, setStart] = useState<string>("");
+  const [end, setEnd] = useState<string>("");
 
   const fetchDashboard = async () => {
     try {
       const res = await getDashboardApi({ start, end });
       setData(res.data.data);
-    } catch (err: any) {
-      showError(err.response?.data?.message || "Failed to fetch dashboard");
-    } finally {
-      setLoading(false);
-    }
-  };
+    } catch (err: unknown) {
+        const message =
+          err instanceof Error ? err.message : "Failed to fetch dashboard";
+        showError(message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   useEffect(() => {
     fetchDashboard();
@@ -106,14 +118,14 @@ const AdminDashboard = () => {
   );
 };
 
-const Card = ({ title, value }: any) => (
+const Card = ({ title, value }: CardProps) => (
   <div className="bg-white p-4 rounded-lg shadow text-center">
     <h3 className="text-lg font-medium">{title}</h3>
     <p className="text-2xl font-bold">{value}</p>
   </div>
 );
 
-const RecentBookings = ({ bookings }: any) => (
+const RecentBookings = ({ bookings }: RecentBookingsProps) => (
   <div className="bg-white p-6 rounded-xl shadow-sm">
     <h3 className="text-lg font-semibold mb-4">Recent Bookings</h3>
 
@@ -129,16 +141,16 @@ const RecentBookings = ({ bookings }: any) => (
         </thead>
 
         <tbody>
-          {bookings.map((b: any) => (
+          {bookings.map((b) => (
             <tr
               key={b._id}
               className="bg-gray-50 hover:bg-gray-100 transition rounded-lg shadow-sm"
             >
               <td className="px-6 py-4 font-medium text-gray-800">
-                {b.studentId?.name}
+                {b.studentId?.name ?? "—"}
               </td>
               <td className="px-6 py-4 text-gray-700">
-                {b.instructorId?.name}
+                {b.instructorId?.name ?? "—"}
               </td>
               <td className="px-6 py-4 text-gray-700">
                 {b.sessionId?.title}

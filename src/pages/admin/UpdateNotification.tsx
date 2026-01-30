@@ -4,6 +4,14 @@ import AdminPageLayout from "../../components/layout/AdminPageLayout";
 import { showError, showSuccess } from "../../utils/toast";
 import { getNotificationsApi, updateNotificationApi } from "../../api/admin.api";
 import NotificationForm from "../../components/admin/NotificationForm";
+import { getErrorMessage } from "../../utils/getErrorMessage";
+
+interface INotification {
+  _id: string;
+  content: string;
+  isVisible: boolean;
+  updatedAt: string;
+}
 
 const UpdateNotification = () => {
   const { id } = useParams();
@@ -15,7 +23,7 @@ const UpdateNotification = () => {
     const fetchNotif = async () => {
       try {  
         const res = await getNotificationsApi();
-        const notif = res.data.data.find((n) => n._id === id);
+        const notif = res.data.data.find((n: INotification) => n._id === id);
         if (!notif) return showError("Notification not found");
         setData({ title: notif.title, content: notif.content });
       } catch {
@@ -44,8 +52,8 @@ const UpdateNotification = () => {
             await updateNotificationApi(id!, values);
             showSuccess("Notification updated successfully");
             navigate("/admin/notifications");
-          } catch (err: any) {
-            showError(err.response?.data?.message || "Update failed");
+          } catch (err: unknown) {
+            showError(getErrorMessage(err));
             throw err;
           }
         }}

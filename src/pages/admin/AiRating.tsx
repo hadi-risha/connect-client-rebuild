@@ -5,6 +5,8 @@ import Pagination from "../../components/admin/DataTable/Pagination";
 import { searchByKeys } from "../../utils/adminSearch";
 import { getAiRatingsApi } from "../../api/admin.api";
 import { showError } from "../../utils/toast";
+import axios from "axios";
+import type { UserRole } from "../../types/adminAiRating";
 
 interface IAiRating {
   _id: string;
@@ -21,25 +23,31 @@ const AiRating = () => {
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
-  const [roleFilter, setRoleFilter] = useState<"" | IAiRating["role"]>("");
+  type RoleFilter = "" | UserRole;
+  const [roleFilter, setRoleFilter] = useState<RoleFilter>("");
   const [page, setPage] = useState(1);
+  
 
   useEffect(() => {
     const fetchRatings = async () => {
       try {
         const res = await getAiRatingsApi();
 
-        const formatted: IAiRating[] = res.data.data.map((item: any) => ({
+        const formatted: IAiRating[] = res?.data?.data?.map((item) => ({
           _id: item.ratingId,
-          name: item.user.name,
-          email: item.user.email,
-          role: item.user.role,
+          name: item.user.name ?? "Unknown",
+          email: item.user.email ?? "N/A",
+          role: item.user.role ?? "student", // fallback for safety
           rating: item.rating,
         }));
 
         setRatings(formatted);
-      } catch (err: any) {
-        showError(err?.response?.data?.message || "Failed to load AI ratings");
+      } catch (err: unknown) {
+        if (axios.isAxiosError(err)) {
+          showError(err.response?.data?.message || "Failed to load AI ratings");
+        } else {
+          showError("Unexpected error occurred");
+        }
       } finally {
         setLoading(false);
       }
@@ -121,7 +129,7 @@ const AiRating = () => {
         <select
           value={roleFilter}
           onChange={(e) => {
-            setRoleFilter(e.target.value as any);
+            setRoleFilter(e.target.value as RoleFilter);
             setPage(1);
           }}
           className="border px-3 py-2 rounded-md"

@@ -18,14 +18,16 @@ export default function InstructorBookingContent({
   const start = new Date(timeSlot);
   const end = new Date(endTime);
 
-  const upperStatus = status.toUpperCase();
+  type BookingStatus = "booked" | "completed" | "cancelled";
 
   // status color mapping
-  const statusColor = {
-    BOOKED: "bg-green-100 text-green-800",
-    COMPLETED: "bg-blue-100 text-blue-800",
-    CANCELLED: "bg-red-100 text-red-800",
+  const statusColor: Record<BookingStatus, string> = {
+    booked: "bg-green-100 text-green-800",
+    completed: "bg-blue-100 text-blue-800",
+    cancelled: "bg-red-100 text-red-800",
   };
+
+  const upperStatus = status.toUpperCase() as BookingStatus;
 
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
@@ -110,7 +112,7 @@ export default function InstructorBookingContent({
 
           {/* actions */}
           <div className="mt-6 flex justify-end gap-4">
-            {upperStatus === "BOOKED" && meetingId && onJoin && (
+            {upperStatus === "booked" && meetingId && onJoin && (
               <button
                 onClick={() => onJoin(booking._id)}
                 className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 flex items-center gap-2 cursor-pointer"

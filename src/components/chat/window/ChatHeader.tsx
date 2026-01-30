@@ -17,7 +17,15 @@ import { getImageKitAuthApi } from "../../../api/imagekit.api";
 import { useImageInput } from "../../../hooks/useImageInput";
 import { useAppDispatch } from "../../../hooks/redux";
 import { selectChat, updateChat } from "../../../features/chat/chatSlice";
+import type { ChatUser } from "../../../features/chat/chat.types";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 
+type UpdateGroupPayload = {
+  name: string;
+  description?: string;
+  image?: { key: string; url: string };
+  removeOldImage?: boolean;
+};
 
 export const ChatHeader = () => {
   const dispatch = useAppDispatch();
@@ -26,13 +34,37 @@ export const ChatHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalType, setModalType] = useState<"edit" | "add" | "remove" | "leave" | "delete" | null>(null);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-  const [availableUsers, setAvailableUsers] = useState<any[]>([]);
+  const [availableUsers, setAvailableUsers] = useState<ChatUser[]>([]);
+
+  const editForm = useForm({
+    name: { value: chat?.name || "", validators: [required("Group name")] },
+    description: { value: chat?.description || "", validators: [] },
+  });
+
+  const image = useImageInput({
+    initialUrl: chat?.image?.url,
+    required: false,
+  });
+
+  // fetch available users
+  useEffect(() => {
+    if (modalType === "add" && chat) {
+      discoverUsersApi()
+        .then((res) => {
+          // exclude users already in the group
+          const existingIds = chat.members.map(m => m._id);
+          const filtered = res.data.users.filter((u: ChatUser) => !existingIds.includes(u._id));
+          setAvailableUsers(filtered);
+        })
+        .catch(() => showError("Failed to fetch users"));
+    }
+  }, [modalType, chat?.members]);
 
   if (!chat || !currentUser) return null;
 
   const isAdmin =
   chat.type === "group" &&
-  chat.admins?.some((a: any) =>
+  chat.admins?.some((a) =>
     typeof a === "string"
       ? a === currentUser._id
       : a._id === currentUser._id
@@ -41,32 +73,6 @@ export const ChatHeader = () => {
   const otherUser = chat.type === "one_to_one" ? chat.members.find((m) => m._id !== currentUser._id) : null;
   const title = chat.type === "group" ? chat.name : otherUser?.name ?? "Unknown user";
   const avatar = chat.type === "group" ? chat.image?.url : otherUser?.profilePicture?.url;
-
-  const editForm = useForm({
-    name: { value: chat.name || "", validators: [required("Group name")] },
-    description: { value: chat.description || "", validators: [] },
-  });
-
-  const image = useImageInput({
-    initialUrl: chat.image?.url,
-    required: false,
-  });
-
-  
-  // fetch available users
-  useEffect(() => {
-    if (modalType === "add") {
-      discoverUsersApi()
-        .then((res) => {
-          // exclude users already in the group
-          const existingIds = chat.members.map(m => m._id);
-          const filtered = res.data.users.filter((u: any) => !existingIds.includes(u._id));
-          setAvailableUsers(filtered);
-        })
-        .catch(() => showError("Failed to fetch users"));
-    }
-  }, [modalType, chat.members]);
-
 
   const toggleUser = (id: string) => {
     setSelectedUsers((prev) => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
@@ -77,7 +83,7 @@ export const ChatHeader = () => {
       if (modalType === "edit") {
         if (!editForm.validateForm() || !image.validate()) return;
 
-        const payload: any = {
+        const payload: UpdateGroupPayload  = {
           name: editForm.values.name,
           description: editForm.values.description,
         };
@@ -87,7 +93,7 @@ export const ChatHeader = () => {
           const auth = await getImageKitAuthApi();
           const uploaded = await uploadToImageKit(image.file, auth.data ?? auth);
           payload.image = { key: uploaded.fileId, url: uploaded.url };
-        } else if (image.removed && chat.image?.key) {
+        } else if (image.removed && chat?.image?.key) {
           payload.removeOldImage = true;
         }
 
@@ -143,8 +149,8 @@ export const ChatHeader = () => {
 
       setSelectedUsers([]);
       setModalType(null);
-    } catch (err: any) {
-      showError(err.response?.data?.message || "Something went wrong");
+    } catch (err: unknown) {
+      showError(getErrorMessage(err) || "Something went wrong");
     }
   };
 

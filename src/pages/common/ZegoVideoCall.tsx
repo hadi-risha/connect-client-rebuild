@@ -10,7 +10,8 @@ const ZegoVideoCall = () => {
   const { bookingId } = useParams();
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
-  const zpRef = useRef<any>(null);
+  // const zpRef = useRef<any>(null);
+  const zpRef = useRef<InstanceType<typeof ZegoUIKitPrebuilt> | null>(null);
   const startedRef = useRef(false);
   const userName = useAppSelector((state) => state.user.user?.name);
   const [leftRoom, setLeftRoom] = useState(false);

@@ -1,14 +1,22 @@
+import type { ReactNode } from "react";
 import { Role } from "../../constants/roles";
 import { useForm } from "../../hooks/useForm";
 import { required, minLength } from "../../utils/validators";
 import { useImageInput } from "../../hooks/useImageInput";
 import type { User } from "../../features/user/user.types";
 import { useNavigate } from "react-router-dom";
+import type { ProfileUpdateFormData } from "../../types/updateProfileForm";
 
 interface Props {
   user: User;
-  onSubmit: (payload: any) => void;
+   onSubmit: (payload: ProfileUpdateFormData) => void;
   loading?: boolean;
+}
+
+interface FormCardProps {
+  label: string;
+  error?: string | null;
+  children: ReactNode;
 }
 
 const UserProfileForm = ({ user, onSubmit, loading }: Props) => {
@@ -146,7 +154,7 @@ const UserProfileForm = ({ user, onSubmit, loading }: Props) => {
   );
 };
 
-const FormCard = ({ label, error, children }: any) => (
+const FormCard = ({ label, error, children }: FormCardProps) => (
   <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 space-y-2">
     <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
       {label}

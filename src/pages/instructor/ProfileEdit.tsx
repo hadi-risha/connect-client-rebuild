@@ -7,6 +7,20 @@ import { uploadToImageKit } from "../../api/imagekit.upload";
 import { setUser } from "../../features/user/userSlice";
 import { showSuccess, showError } from "../../utils/toast";
 import UserProfileForm from "../../components/common/UserProfileForm";
+import type { ProfileUpdateFormData } from "../../types/updateProfileForm";
+
+type ProfileUpdateApiPayload = {
+  name: string;
+  instructorProfile?: {
+    bio: string;
+    expertise: string;
+  };
+  profilePicture?: {
+    key: string;
+    url: string;
+  };
+  removePhoto?: boolean;
+};
 
 const InstructorProfileEdit = () => {
   const { user } = useAppSelector((s) => s.user);
@@ -16,10 +30,15 @@ const InstructorProfileEdit = () => {
 
   if (!user) return null;
 
-  const handleUpdate = async (data: any) => {
+  const handleUpdate = async (data: ProfileUpdateFormData) => {
     try {
       setLoading(true);
-      let payload = { ...data };
+      
+      const payload: ProfileUpdateApiPayload = {
+        name: data.name,
+        instructorProfile: data.instructorProfile,
+        removePhoto: data.removePhoto,
+      };
 
       if (data.imageFile) {
         const auth = await getImageKitAuthApi();
@@ -30,7 +49,6 @@ const InstructorProfileEdit = () => {
           url: uploaded.url,
         };
       }
-      delete payload.imageFile;
 
       const res = await updateProfileApi(payload);
       dispatch(setUser({ user: res.data.user }));

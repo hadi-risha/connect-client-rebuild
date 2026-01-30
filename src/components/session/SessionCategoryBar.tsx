@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { SessionCategory } from "../../constants/sessionCategory";
 
 interface Props {
-  active: string;
-  onChange: (cat: any) => void;
+  active: SessionCategory | "ALL";
+  onChange: (cat: SessionCategory | "ALL") => void;
 }
 
 export default function SessionCategoryBar({ active, onChange }: Props) {

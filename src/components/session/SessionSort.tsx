@@ -1,6 +1,6 @@
 interface Props {
   value: string;
-  onChange: (v: any) => void;
+  onChange: (v: string) => void;
 }
 
 export default function SessionSort({ value, onChange }: Props) {

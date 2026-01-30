@@ -21,7 +21,7 @@ export type SwitchRolePayload = {
 export const switchRoleApi = (payload: SwitchRolePayload) =>
   api.post("/user/switch-role", payload);
 
-export const updateProfileApi = (payload) =>
+export const updateProfileApi = (payload: unknown) =>
   api.put("/user/profile", payload);
 
 export const getAllSessionsApi = () => 

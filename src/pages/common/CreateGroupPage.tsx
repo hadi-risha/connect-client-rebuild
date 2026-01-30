@@ -56,7 +56,7 @@ const CreateGroupPage = () => {
 
       showSuccess("Group created successfully 🎉");
       navigate(`/user/chat`, { replace: true });
-    } catch (e) {
+    } catch {
       showError("Failed to create group");
     }
   };

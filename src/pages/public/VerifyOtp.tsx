@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { resendOtpApi, verifyOtpApi } from "../../api/userAuth.api";
 import { showSuccess } from "../../utils/toast";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { setAuth } from "../../features/auth/authSlice";
 
 const OTP_LENGTH = 6;
@@ -11,7 +11,6 @@ const OTP_LENGTH = 6;
 const VerifyOtp = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const auth = useAppSelector((state) => state.auth);
   const verifiedRef = useRef(false);
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
   const [error, setError] = useState("");
@@ -180,7 +179,11 @@ const VerifyOtp = () => {
           {otp.map((digit, index) => (
             <input
               key={index}
-              ref={(el) => (inputsRef.current[index] = el)}
+              // ref={(el) => (inputsRef.current[index] = el)}
+              ref={(el) => {
+                inputsRef.current[index] = el; // assign
+              }}
+
               maxLength={1}
               value={digit}
               onChange={(e) => handleChange(e.target.value, index)}

@@ -10,7 +10,11 @@ import { setAuth } from "../../features/auth/authSlice";
 import { showSuccess } from "../../utils/toast";
 import { config } from "../../config";
 
-interface LoginFormValues {
+// interface LoginFormValues {
+//   email: string;
+//   password: string;
+// }
+interface LoginFormValues extends Record<string, string> {
   email: string;
   password: string;
 }

@@ -8,16 +8,19 @@ import { Heart } from "lucide-react";
 import { toggleWishlistApi } from "../../api/student.api";
 import { updateSession } from "../../features/sessions/sessionsSlice";
 import { showError, showInfo } from "../../utils/toast";
+import type { Session } from "../../features/session/session.types";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 export default function Wishlist() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const sessions = useAppSelector(s => s.sessions.list);
   const wishlistSessions = sessions.filter(s => s.isWishlisted);
-  const [selectedSession, setSelectedSession] = useState<any>(null);
+  // const [selectedSession, setSelectedSession] = useState<any>(null);
+  const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [open, setOpen] = useState(false);
 
-  const handleRemoveClick = (session: any) => {
+  const handleRemoveClick = (session: Session) => {
     setSelectedSession(session);
     setOpen(true);
   };
@@ -26,7 +29,7 @@ export default function Wishlist() {
     if (!selectedSession) return;
 
     try {
-      await toggleWishlistApi(selectedSession._id);
+      await toggleWishlistApi(selectedSession._id!);
 
       dispatch(
         updateSession({
@@ -35,8 +38,8 @@ export default function Wishlist() {
         })
       );
       showInfo("Removed from wishlist");
-    } catch (err) {
-      showError("Failed to remove from wishlist");
+    } catch (err: unknown) {
+      showError(getErrorMessage(err) || "Failed to remove from wishlist");
     } finally {
       setOpen(false);
       setSelectedSession(null);

@@ -8,19 +8,58 @@ import arrow from "../../images/aiArrow.png";
 import { config } from "../../config";
 import { callGeminiSdk } from "../../lib/geminiSdk";
 
-const NewPrompt = ({ data }) => {
+type MessageRole = "user" | "model";
+
+interface ChatPart {
+  text: string;
+}
+
+interface ChatMessage {
+  role: MessageRole;
+  parts: ChatPart[];
+  img?: string;
+}
+
+export interface Chat {
+  _id: string;
+  history: ChatMessage[];
+}
+
+interface ImageState {
+  isLoading: boolean;
+  error: string;
+  dbData: {
+    filePath?: string;
+  };
+  aiData: unknown;
+}
+
+type MutationPayload = {
+  question?: string;
+  answer: string;
+  img?: string;
+};
+
+
+type NewPromptProps = {
+  data?: Chat; // keep flexible — history, _id etc are dynamic
+};
+
+
+const NewPrompt = ({ data }: NewPromptProps) => {
   const endRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const queryClient = useQueryClient();
 
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-  const [img, setImg] = useState({
-    isLoading: false,
-    error: "",
-    dbData: {},
-    aiData: {},
-  });
+  const [img, setImg] = useState<ImageState>({
+      isLoading: false,
+      error: "",
+      dbData: {},
+      aiData: {},
+    });
+
   const [isGenerating, setIsGenerating] = useState(false);
 
   // scroll to bottom
@@ -29,16 +68,21 @@ const NewPrompt = ({ data }) => {
   }, [question, answer, data]);
 
   // save AI response
-  const mutation = useMutation({
+  // const mutation = useMutation({
+  const mutation = useMutation<unknown, Error, MutationPayload>({
     mutationFn: async ({ question, answer, img }) => {
+      if (!data?._id) throw new Error("Chat not ready");
+
       return aiChatUpdateApi(
         data._id,
-        question,          
+        question,
         answer,
         img
       );
     },
     onSuccess: () => {
+      if (!data?._id) return;
+
       queryClient.invalidateQueries({ queryKey: ["chat", data._id] });
       formRef.current?.reset();
       setQuestion("");
@@ -47,6 +91,7 @@ const NewPrompt = ({ data }) => {
     },
   });
 
+
   const add = async (text: string, isInitial: boolean) => {
     if (!isInitial) setQuestion(text);
 
@@ -54,22 +99,22 @@ const NewPrompt = ({ data }) => {
     setIsGenerating(true);
 
     try {
-      const messages = [
-        ...(data?.history || []).map((m) => ({
-          role: m.role,
-          text: m.parts[0].text,
+      const messages: { role: MessageRole; text: string }[] = [
+        ...(data?.history ?? []).map((m) => ({
+          role: m.role as MessageRole,
+          text: m.parts[0]?.text ?? "",
         })),
         { role: "user", text },
       ];
 
-      const result = await callGeminiSdk({ messages });
-
+      const result = (await callGeminiSdk({ messages })) ?? "";
       setAnswer(result);
+
 
       await mutation.mutateAsync({
         question: isInitial ? undefined : text, 
         answer: result,
-        img: img?.dbData?.filePath,
+        img: img.dbData.filePath,
       });
     } catch (err) {
       console.error("Gemini error:", err);
@@ -82,7 +127,11 @@ const NewPrompt = ({ data }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isGenerating) return; 
-    const text = (e.currentTarget.text as HTMLInputElement).value;
+
+    const form = e.currentTarget;
+    const input = form.elements.namedItem("text") as HTMLInputElement | null;
+    const text = input?.value.trim() ?? "";
+    
     if (!text) return;
     add(text, false);
   };
@@ -92,7 +141,8 @@ const NewPrompt = ({ data }) => {
   const hasRun = useRef(false);
   useEffect(() => {
     if (!hasRun.current && data?.history?.length === 1) {
-      const firstMsg = data.history[0].parts[0].text;
+      const firstMsg = data.history[0].parts[0]?.text;
+      if (!firstMsg) return;
       add(firstMsg, true);  
       hasRun.current = true;
     }
@@ -105,7 +155,7 @@ const NewPrompt = ({ data }) => {
       {img.dbData?.filePath && (
         <IKImage
           urlEndpoint={config.imageKit.endPoint}
-          path={img.dbData.filePath}
+          path={img?.dbData?.filePath}
           width="380"
           transformation={[{ width: 380 }]}
         />

@@ -41,7 +41,7 @@ VITE_ZEGO_SERVER_SECRET=
 
 
 ## Installation & Setup
-1. git clone <repo-url>
+1. git clone https://github.com/hadi-risha/connect-client-rebuild.git
 2. cd <project-folder>
 3. npm install
 4. npm run dev

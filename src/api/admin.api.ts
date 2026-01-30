@@ -1,4 +1,6 @@
 // flow (component -> api -> axios -> backend)
+import type { AiRatingsApiResponse } from '../types/adminAiRating';
+import type { DashboardData } from '../types/adminDashboard';
 import api from './axios'
 
 export const adminLoginApi = (data: { email: string; password: string }) =>
@@ -14,7 +16,7 @@ export const adminToggleBlock = (id: string) =>
   api.patch(`/admin/users/${id}/toggle-block`);
 
 export const getAiRatingsApi = () => {
-  return api.get("/admin/ai-ratings");
+  return api.get<AiRatingsApiResponse>("/admin/ai-ratings");
 };
 
 export const getNotificationsApi = () => 
@@ -34,7 +36,7 @@ export const toggleNotificationVisibilityApi  = (id: string) =>
   api.patch(`/admin/notifications/${id}/toggle-visibility`);
 
 export const getDashboardApi = (params?: { start?: string; end?: string }) =>
-  api.get("/admin/dashboard", { params });
+  api.get<{ message: string; data: DashboardData }>("/admin/dashboard", { params });
 
 
 

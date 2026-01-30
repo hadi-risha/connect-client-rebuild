@@ -4,6 +4,7 @@ import NotificationForm from "../../components/admin/NotificationForm";
 import AdminPageLayout from "../../components/layout/AdminPageLayout";
 import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "../../utils/toast";
+import axios from "axios";
 
 const CreateNotification = () => {
   const navigate = useNavigate();
@@ -25,8 +26,12 @@ const CreateNotification = () => {
             await createNotificationApi(data);
             showSuccess("Notification created successfully");
             navigate("/admin/notifications");
-          } catch (err: any) {
-            showError(err.response?.data?.message || "Failed to create");
+          } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+              showError(err.response?.data?.message || "Failed to create");
+            } else {
+              showError("Unexpected error occurred");
+            }
             throw err;
           }
         }}

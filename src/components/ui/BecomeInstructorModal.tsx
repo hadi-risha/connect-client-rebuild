@@ -3,11 +3,21 @@ import { useForm } from "../../hooks/useForm";
 import { required, minLength } from "../../utils/validators";
 import { useImageInput } from "../../hooks/useImageInput";
 import { useAppSelector } from "../../hooks/redux";
-import { Role } from "../../constants/roles";
+// import { Role } from "../../constants/roles";
+
+interface BecomeInstructorData {
+  role: "instructor";
+  instructorProfile: {
+    bio: string;
+    expertise: string;
+  };
+  imageFile?: File;
+  removePhoto: boolean;
+}
 
 interface Props {
   isOpen: boolean;
-  onConfirm: (data: FormData) => void;
+  onConfirm: (data: BecomeInstructorData) => void;
   onCancel: () => void;
 }
 
@@ -38,7 +48,7 @@ const BecomeInstructorModal = ({ isOpen, onConfirm, onCancel }: Props) => {
     if (!isFormValid || !isImageValid) return;
 
     onConfirm({
-      role: Role.INSTRUCTOR,
+      role: "instructor",
       instructorProfile: {
         bio: form.values.bio,
         expertise: form.values.expertise,

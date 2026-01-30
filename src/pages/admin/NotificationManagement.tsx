@@ -9,6 +9,7 @@ import { searchByKeys } from "../../utils/adminSearch";
 import { getNotificationsApi, toggleNotificationVisibilityApi  } from "../../api/admin.api";
 import { useNavigate } from "react-router-dom";
 import { Pencil } from "lucide-react";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
 interface INotification {
   _id: string;
@@ -33,16 +34,15 @@ const NotificationManagement = () => {
       try {
         const res = await getNotificationsApi();
 
-        const formatted = res.data.data.map((n: any) => ({
+        const formatted: INotification[] = res.data.data.map((n: INotification) => ({
           _id: n._id,
           content: n.content,
           isVisible: n.isVisible,
           updatedAt: new Date(n.updatedAt).toLocaleDateString(),
         }));
-
         setNotifications(formatted);
-      } catch (err: any) {
-        showError(err?.response?.data?.message || "Failed to load notifications");
+      } catch (err: unknown) {
+        showError(getErrorMessage(err));
       } finally {
         setLoading(false);
       }
@@ -138,8 +138,8 @@ const NotificationManagement = () => {
       );
 
       showSuccess("Notification updated");
-    } catch (err: any) {
-      showError(err?.response?.data?.message || "Action failed");
+    } catch (err: unknown) {
+      showError(getErrorMessage(err));
     } finally {
       setActionNotification(null);
     }
@@ -162,7 +162,7 @@ const NotificationManagement = () => {
     <select
       value={statusFilter}
       onChange={(e) => {
-        setStatusFilter(e.target.value as any);
+        setStatusFilter(e.target.value as "" | "visible" | "hidden");
         setPage(1);
       }}
       className="border px-3 py-2 rounded-md"

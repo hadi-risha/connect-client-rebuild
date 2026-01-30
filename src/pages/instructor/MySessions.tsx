@@ -6,7 +6,7 @@ import { Archive, Edit, Layers } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getMySessionsApi, toggleSessionArchiveApi } from "../../api/instructor.api";
 import { setSessions } from "../../features/sessions/sessionsSlice";
-import { useSessionList } from "../../hooks/useSessionList";
+import { useSessionList, type SortOption } from "../../hooks/useSessionList";
 import Pagination from "../../components/ui/Pagination";
 import { showError, showSuccess } from "../../utils/toast";
 import Modal from "../../components/ui/Modal";
@@ -70,7 +70,7 @@ const MySessions = () => {
           <label className="text-sm mb-1">Sort</label>
           <select
             value={list.sort}
-            onChange={e => list.setSort(e.target.value)}
+            onChange={e => list.setSort(e.target.value as SortOption)}
             className="input w-48 cursor-pointer"
           >
             <option value="latest">Latest</option>
@@ -138,13 +138,14 @@ const MySessions = () => {
                 secondaryAction={{
                   icon: <Edit size={20} />,
                   title: "Edit session",
-                  onClick: () => handleEditSession(s._id),
+                  onClick: () => s._id && handleEditSession(s._id)
+
                 }}
 
                 extraAction={{
                   icon: <Archive size={20} />,
                   title: "Archive session",
-                  onClick: () => handleArchiveClick(s._id),
+                  onClick: () => s._id && handleArchiveClick(s._id)
                 }}
               />
             ))}

@@ -56,7 +56,9 @@ const AdminSidebar = () => {
       menu.children.some(child => isRouteActive(child.to))
     );
     if (activeMenu) {
-      setOpenMenu(activeMenu.key);
+      // setOpenMenu(activeMenu.key);
+      const timer = setTimeout(() => setOpenMenu(activeMenu.key), 0);
+      return () => clearTimeout(timer);
     }
   }, [location.pathname]);
 

@@ -18,15 +18,20 @@ export const performRoleSwitch = async ( dispatch: AppDispatch, payload: SwitchR
         authRes.data
       );
 
+      const { imageFile, ...rest } = payload;
+      console.log(imageFile)
+
       finalPayload = {
-        ...payload,
+        ...rest,
         photo: {
           key: uploaded.fileId,
           url: uploaded.url,
         },
       };
-
-      delete (finalPayload as any).imageFile;
+    } else {
+      const { imageFile, ...rest } = payload;
+      console.log(imageFile)
+      finalPayload = rest;
     }
 
     const res = await switchRoleApi(finalPayload);

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import { minLength, required } from "../../utils/validators";
 import { RequiredStar } from "../ui/RequiredStar"; 
+import axios from "axios";
 
 interface Props {
   initialData?: {
@@ -41,8 +42,16 @@ const NotificationForm = ({
 
       await onSubmit(values);
       resetForm();
-    } catch (err: any) {
-      const message = err.response?.data?.message || "Something went wrong";
+    } catch (err: unknown) {
+      let message = "Something went wrong";
+
+      if (axios.isAxiosError(err)) {
+        // err is now typed as AxiosError
+        message = err.response?.data?.message || message;
+      } else if (err instanceof Error) {
+        message = err.message;
+      }
+
       setApiError?.(message);
       throw err; // allow toast from page
     } finally {
@@ -79,7 +88,7 @@ const NotificationForm = ({
           name="content"
           rows={4}
           value={values.content}
-          onChange={handleChange as any}
+          onChange={handleChange}
           className={`w-full border rounded-md px-3 py-2 ${
             errors.content ? "border-red-500" : ""
           }`}

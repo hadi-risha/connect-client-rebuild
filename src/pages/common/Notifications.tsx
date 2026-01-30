@@ -23,7 +23,7 @@ const UserNotifications = () => {
     try {
       const res = await getUserNotificationsApi();
       setNotifications(res.data.data || []);
-    } catch (err) {
+    } catch {
       console.error("Failed to fetch notifications");
     } finally {
       setLoading(false);

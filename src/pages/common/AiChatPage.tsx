@@ -6,20 +6,38 @@ import { IKImage } from "imagekitio-react";
 import NewPrompt from "../../components/common/AiNewPrompt";
 import { getAiChatApi } from "../../api/user.api";
 import {config} from "../../config/index";
+import { getErrorMessage } from "../../utils/getErrorMessage";
+
+type MessageRole = "user" | "model";
+
+interface ChatPart {
+  text: string;
+}
+
+interface ChatMessage {
+  role: MessageRole;
+  parts: ChatPart[];
+  img?: string;
+}
+
+interface Chat {
+  _id: string;
+  history: ChatMessage[];
+}
 
 
 const AiChatPage = () => {
   const { id: chatId } = useParams<{ id: string }>();
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data } = useQuery<Chat>({
     queryKey: ["chat", chatId],
-    enabled: !!chatId,
+    enabled: Boolean(chatId),
     queryFn: async () => {
       try {
-        const response = await getAiChatApi(chatId)
-        return response.data.chat; // return the data from the response
+        const response = await getAiChatApi(chatId!);
+        return response.data.chat; 
       } catch (err) {
-        throw new Error(err.message || "Failed to fetch data");
+        throw new Error(getErrorMessage(err) || "Failed to fetch data");
       }
     },
   });

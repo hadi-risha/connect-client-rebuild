@@ -14,6 +14,7 @@ export interface User {
     bio?: string;
     expertise?: string;
   };
+  _id?: string;
 }
 
 export interface UserState {

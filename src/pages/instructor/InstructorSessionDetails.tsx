@@ -58,6 +58,7 @@ const InstructorSessionDetails = () => {
 
     setArchiving(true);
     try {
+      if (!session?._id) return;
       await toggleSessionArchiveApi(session._id, true);
       showSuccess("Session archived successfully");
       navigate(-1);
@@ -140,16 +141,16 @@ const InstructorSessionDetails = () => {
               </p>
             </div>
 
-            {session?.bulletPoints?.length > 0 && (
+            {session?.bulletPoints?.length ? (
               <ul className="space-y-2">
-                {session.bulletPoints.map((point, i) => (
+                {session.bulletPoints?.map((point, i) => (
                   <li key={i} className="flex gap-2">
                     <span className="text-blue-500">→</span>
                     <span>{point}</span>
                   </li>
                 ))}
               </ul>
-            )}
+            ) : null}
 
             <div className="mt-auto flex justify-center">
               <button

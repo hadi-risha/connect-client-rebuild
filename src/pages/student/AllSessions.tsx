@@ -6,7 +6,7 @@ import { setSessions, updateSession } from "../../features/sessions/sessionsSlic
 import SessionCard from "../../components/session/SessionCard";
 import EmptyState from "../../components/ui/EmptyState";
 import { Heart, Layers } from "lucide-react";
-import { useSessionList } from "../../hooks/useSessionList";
+import { useSessionList, type SortOption } from "../../hooks/useSessionList";
 import SessionCategoryBar from "../../components/session/SessionCategoryBar";
 import Pagination from "../../components/ui/Pagination";
 import { toggleWishlistApi } from "../../api/student.api";
@@ -46,7 +46,8 @@ export default function StudentSessions() {
           <label className="text-sm mb-1">Sort</label>
           <select
             value={list.sort}
-            onChange={e => list.setSort(e.target.value)}
+            // onChange={e => list.setSort(e.target.value)}
+            onChange={e => list.setSort(e.target.value as SortOption)}
             className="input w-48 cursor-pointer"
           >
             <option value="latest">Latest</option>

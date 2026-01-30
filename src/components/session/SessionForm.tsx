@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import { useForm } from "../../hooks/useForm";
@@ -358,8 +358,29 @@ export default function SessionForm({ mode, initialData, onSubmit }: Props) {
   );
 }
 
+
+type SessionFormValues = {
+  title: string;
+  introduction: string;
+  description: string;
+  duration: string;
+  fees: string;
+  category: string;
+};
+
+
+
+interface FormFieldProps {
+  label?: string;
+  name: keyof SessionFormValues; // only valid field names
+  values: SessionFormValues; 
+  errors: Record<string, string | null | undefined>;
+  handleChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+  children?: ReactNode; // for Select
+}
+
 // SMALL REUSABLE UI
-const Input = ({ label, name, values, errors, handleChange }: any) => (
+const Input = ({ label, name, values, errors, handleChange }: FormFieldProps) => (
   <div className="mb-4">
     <label className="font-medium">{label}</label>
     <input
@@ -372,7 +393,7 @@ const Input = ({ label, name, values, errors, handleChange }: any) => (
   </div>
 );
 
-const Textarea = ({ label, name, values, errors, handleChange }: any) => (
+const Textarea = ({ label, name, values, errors, handleChange }: FormFieldProps) => (
   <div className="mb-4">
     <label className="font-medium">{label}</label>
     <textarea
@@ -385,7 +406,7 @@ const Textarea = ({ label, name, values, errors, handleChange }: any) => (
   </div>
 );
 
-const Select = ({ label, name, values, errors, handleChange, children }: any) => (
+const Select = ({ label, name, values, errors, handleChange, children }: FormFieldProps) => (
   <div className="mb-4">
     <label className="font-medium">{label}</label>
     <select
@@ -400,7 +421,12 @@ const Select = ({ label, name, values, errors, handleChange, children }: any) =>
   </div>
 );
 
-const Section = ({ title, children }: any) => (
+interface SectionProps {
+  title?: string;
+  children: ReactNode;
+}
+
+const Section = ({ title, children }: SectionProps) => (
   <div className="mb-6">
     <h3 className="mb-2 text-lg font-semibold">{title}</h3>
     {children}

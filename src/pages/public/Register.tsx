@@ -23,7 +23,8 @@ const Register = () => {
     name: { value: "", validators: [required("Name"), onlyLetters("Name")] },
     email: { value: "", validators: [required("Email"), validEmail] },
     password: { value: "", validators: [required("Password"), minLength("Password", 8)] },
-    confirmPassword: { value: "", validators: [required("Confirm Password"), matchField("Confirm Password", "password")] },
+    // confirmPassword: { value: "", validators: [required("Confirm Password"), matchField("Confirm Password", "password")] },
+    confirmPassword: {value: "", validators: [required("Confirm Password"), matchField<RegisterFormValues, "password">("Confirm Password", "password")]},
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
