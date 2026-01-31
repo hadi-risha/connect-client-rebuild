@@ -9,8 +9,11 @@ import { showSuccess, showError } from "../../utils/toast";
 import { performLogout } from "../../service/auth.actions";
 import { useAppSelector } from "../../hooks/redux";
 import UnisexAvatar from "../../icons/UnisexAvatar";
+import { Role } from "../../constants/roles";
 
 const UserMenu = () => {
+  const auth = useAppSelector((state) => state.auth);
+  const userRole = auth.user?.role === Role.STUDENT ? "/student/profile" : "/instructor/profile";
   const [open, setOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -110,7 +113,10 @@ const UserMenu = () => {
             <RoleSwitchDropdown onClose={() => setOpen(false)} />
 
             <button
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                navigate(userRole);
+              }}           
               className="w-full text-left px-4 py-2 hover:bg-gray-100"
             >
               Profile
