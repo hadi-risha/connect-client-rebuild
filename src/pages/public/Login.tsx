@@ -10,10 +10,6 @@ import { setAuth } from "../../features/auth/authSlice";
 import { showSuccess } from "../../utils/toast";
 import { config } from "../../config";
 
-// interface LoginFormValues {
-//   email: string;
-//   password: string;
-// }
 interface LoginFormValues extends Record<string, string> {
   email: string;
   password: string;
@@ -83,6 +79,7 @@ const Login = () => {
         isAuthenticated: true,   
       }));
 
+      console.log("response in login page", response.data)
       showSuccess("logged in successfully 🎉");
 
       // Small delay so user sees toast

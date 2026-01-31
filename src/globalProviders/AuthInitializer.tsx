@@ -12,13 +12,17 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const accessToken = useAppSelector((state) => state.auth.accessToken);
+  const user = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const initAuth = async () => {
       try {
         const res = await api.post("/auth/refresh");
         const refreshedUser = res.data.user;
-
+        
+        console.log("user from redux in authinitializer", user)
+        console.log("refreshedUser in authinitializer", refreshedUser)
+        
         if (refreshedUser?.isBlocked) {
           showError("Your account has been blocked by admin.");
 

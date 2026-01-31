@@ -28,6 +28,7 @@ api.interceptors.response.use(
   (res) => res,
   async (err) => {
     if (err.response?.status === StatusCode.UNAUTHORIZED) {
+      console.log("renew expired access token", err.response?.status)
       try {
         const res = await axios.post(
           `${config.apiBaseUrl}/auth/refresh`,

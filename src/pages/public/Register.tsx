@@ -37,6 +37,8 @@ const Register = () => {
     try {
       const res = await registerApi(values);
 
+      console.log("response in register page", res.data)
+
       // persist
       localStorage.setItem("otp_email", values.email);
       localStorage.setItem("otp_expires_at", res.data.expiresAt.toString());
