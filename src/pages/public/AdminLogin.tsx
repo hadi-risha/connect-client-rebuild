@@ -81,7 +81,7 @@ const AdminLogin = () => {
 
   
           {/* Email */}
-          <label className="block text-white text-sm mb-1">Email</label>
+          {/* <label className="block text-white text-sm mb-1">Email</label> */}
           <input
             type="email"
             name="email"
@@ -93,7 +93,7 @@ const AdminLogin = () => {
           {errors.email && <p className="text-red-500 text-xs mb-2">{errors.email}</p>}
 
           {/* Password */}
-          <label className="block text-white text-sm mb-1">Password</label>
+          {/* <label className="block text-white text-sm mb-1">Password</label> */}
           <input
             type="password"
             name="password"
