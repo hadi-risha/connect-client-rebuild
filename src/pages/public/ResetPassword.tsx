@@ -120,9 +120,10 @@ const ResetPassword = () => {
           <input
             type="password"
             name="password"
+            placeholder="Password"
             value={values.password}
             onChange={handleChange}
-            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent border border-gray-500 text-white outline-none focus:border-blue-500"
+            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent placeholder-white/70 placeholder:text-sm border border-gray-500 text-white outline-none focus:border-blue-500"
           />
           {errors.password && <p className="text-red-500 text-xs mb-2">{errors.password}</p>}
 
@@ -130,9 +131,10 @@ const ResetPassword = () => {
           <input
             type="password"
             name="confirmPassword"
+            placeholder="Confirm Password"
             value={values.confirmPassword}
             onChange={handleChange}
-            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent border border-gray-500 text-white outline-none focus:border-blue-500"
+            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent placeholder-white/70 placeholder:text-sm border border-gray-500 text-white outline-none focus:border-blue-500"
           />
           {errors.confirmPassword && (
             <p className="text-red-500 text-xs mb-2">{errors.confirmPassword}</p>

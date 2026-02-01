@@ -152,24 +152,26 @@ const Login = () => {
           {apiError && <p className="text-red-500 text-sm mb-4">{apiError}</p>}
   
           {/* Email */}
-          <label className="block text-white text-sm mb-1">Email</label>
+          {/* <label className="block text-white text-sm mb-1">Email</label> */}
           <input
             type="email"
             name="email"
+            placeholder="Enter your email"
             value={values.email}
             onChange={handleChange}
-            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent border border-gray-500 text-white outline-none focus:border-blue-500"
+            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent placeholder-white/70 placeholder:text-sm border border-gray-500 text-white outline-none focus:border-blue-500"
           />
           {errors.email && <p className="text-red-500 text-xs mb-2">{errors.email}</p>}
 
           {/* Password */}
-          <label className="block text-white text-sm mb-1">Password</label>
+          {/* <label className="block text-white text-sm mb-1">Password</label> */}
           <input
             type="password"
             name="password"
+            placeholder="Enter your password"
             value={values.password}
             onChange={handleChange}
-            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent border border-gray-500 text-white outline-none focus:border-blue-500"
+            className="block w-full mb-1 px-3 py-2 rounded-md bg-transparent placeholder-white/70 placeholder:text-sm border border-gray-500 text-white outline-none focus:border-blue-500"
           />
           {errors.password && <p className="text-red-500 text-xs mb-2">{errors.password}</p>}
 
