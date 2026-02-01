@@ -44,7 +44,6 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
 
         // store full user profile
         dispatch(setUser({ user: refreshedUser }));
-
       } catch {
         dispatch(logout());
         dispatch(setUser({ user: null }));

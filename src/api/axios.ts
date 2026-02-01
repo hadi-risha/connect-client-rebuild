@@ -27,14 +27,17 @@ api.interceptors.request.use((req) => {
 api.interceptors.response.use(
   (res) => res,
   async (err) => {
-    if (err.response?.status === StatusCode.UNAUTHORIZED) {
+    const originalReq = err.config;
+    if (
+      err.response?.status === StatusCode.UNAUTHORIZED &&
+      !originalReq._retry &&
+      !originalReq.url.includes("/auth/refresh")
+    ) {
+      originalReq._retry = true;
       console.log("renew expired access token", err.response?.status)
+      
       try {
-        const res = await axios.post(
-          `${config.apiBaseUrl}/auth/refresh`,
-          {},
-          { withCredentials: true }
-        );
+        const res = await api.post("/auth/refresh");
 
         store.dispatch(
           setAuth({
@@ -44,9 +47,7 @@ api.interceptors.response.use(
           })
         );
 
-        err.config.headers.Authorization =
-          `Bearer ${res.data.accessToken}`;
-
+        originalReq.headers.Authorization = `Bearer ${res.data.accessToken}`;
         return api(err.config);
       } catch {
         store.dispatch(logout());
