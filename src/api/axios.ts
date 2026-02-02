@@ -8,6 +8,7 @@ import { config } from "../config";
 import {store} from "../app/store";
 import { setAuth, logout } from "../features/auth/authSlice";
 import { StatusCode } from "../constants/statusCodes";
+import { setUser } from "../features/user/userSlice";
 
 const api = axios.create({
   baseURL: config.apiBaseUrl,
@@ -46,6 +47,7 @@ api.interceptors.response.use(
             isAuthenticated: true
           })
         );
+        store.dispatch(setUser({ user: res.data.user }));
 
         originalReq.headers.Authorization = `Bearer ${res.data.accessToken}`;
         return api(err.config);

@@ -7,6 +7,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { setAuth } from "../../features/auth/authSlice";
 import { showSuccess } from "../../utils/toast";
 import { adminLoginApi } from "../../api/admin.api";
+import { setSession } from "../../utils/setSession";
 
 interface LoginFormValues {
   email: string;
@@ -48,6 +49,7 @@ const AdminLogin = () => {
         user: response.data.user,
         isAuthenticated: true,   
       }));
+      setSession(dispatch, response.data.user); //set user data in redux toolkit
 
       showSuccess("logged in successfully 🎉");
 

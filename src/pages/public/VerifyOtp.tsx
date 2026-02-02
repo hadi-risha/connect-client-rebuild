@@ -5,6 +5,7 @@ import { resendOtpApi, verifyOtpApi } from "../../api/userAuth.api";
 import { showSuccess } from "../../utils/toast";
 import { useAppDispatch } from "../../hooks/redux";
 import { setAuth } from "../../features/auth/authSlice";
+import { setSession } from "../../utils/setSession";
 
 const OTP_LENGTH = 6;
 
@@ -104,6 +105,7 @@ const VerifyOtp = () => {
         user: response.data.user,
         isAuthenticated: true,   
       }));
+      setSession(dispatch, response.data.user); //set user data in redux toolkit
 
       verifiedRef.current = true; 
 

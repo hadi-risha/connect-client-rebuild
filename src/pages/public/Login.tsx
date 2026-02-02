@@ -9,6 +9,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { setAuth } from "../../features/auth/authSlice";
 import { showSuccess } from "../../utils/toast";
 import { config } from "../../config";
+import { setSession } from "../../utils/setSession";
 
 interface LoginFormValues extends Record<string, string> {
   email: string;
@@ -78,6 +79,7 @@ const Login = () => {
         user: response.data.user,
         isAuthenticated: true,   
       }));
+      setSession(dispatch, response.data.user); //set user data in redux toolkit
 
       console.log("response in login page", response.data)
       showSuccess("logged in successfully 🎉");
