@@ -79,7 +79,9 @@ const Login = () => {
         user: response.data.user,
         isAuthenticated: true,   
       }));
-      setSession(dispatch, response.data.user); //set user data in redux toolkit
+      console.log("response in login", response)
+      console.log("response.data in login", response.data)
+      setSession(dispatch); //set user data in redux toolkit
 
       console.log("response in login page", response.data)
       showSuccess("logged in successfully 🎉");

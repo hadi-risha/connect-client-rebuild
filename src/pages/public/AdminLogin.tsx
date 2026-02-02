@@ -49,7 +49,7 @@ const AdminLogin = () => {
         user: response.data.user,
         isAuthenticated: true,   
       }));
-      setSession(dispatch, response.data.user); //set user data in redux toolkit
+      setSession(dispatch); //set user data in redux toolkit
 
       showSuccess("logged in successfully 🎉");
 

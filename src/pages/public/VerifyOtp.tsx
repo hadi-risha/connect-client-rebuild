@@ -105,7 +105,7 @@ const VerifyOtp = () => {
         user: response.data.user,
         isAuthenticated: true,   
       }));
-      setSession(dispatch, response.data.user); //set user data in redux toolkit
+      setSession(dispatch); //set user data in redux toolkit
 
       verifiedRef.current = true; 
 
