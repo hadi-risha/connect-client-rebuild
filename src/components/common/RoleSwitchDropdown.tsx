@@ -76,7 +76,7 @@ const RoleSwitchDropdown = ({ onClose }: Props) => {
       </div>
 
       {/* change the option to dynamic later */}
-      {user?.role === Role.STUDENT ? (
+      {/* {user?.role === Role.STUDENT ? (
         <button
           onClick={() => setShowInstructorModal(true)}
           className="w-full px-4 py-2 text-left hover:bg-gray-100"
@@ -90,7 +90,17 @@ const RoleSwitchDropdown = ({ onClose }: Props) => {
         >
           Switch to Student
         </button>
+      )} */}
+
+      {user?.role === Role.STUDENT && (
+        <button
+          onClick={() => setShowInstructorModal(true)}
+          className="w-full px-4 py-2 text-left hover:bg-gray-100"
+        >
+          Become Instructor
+        </button>
       )}
+
 
       <BecomeInstructorModal
         isOpen={showInstructorModal}
