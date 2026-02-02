@@ -15,6 +15,7 @@ export interface User {
     expertise?: string;
   };
   _id?: string;
+  isBlocked?: boolean;
 }
 
 export interface UserState {
