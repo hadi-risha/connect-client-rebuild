@@ -29,6 +29,10 @@ const ConfirmBooking = () => {
           concerns: state.concerns,
         });
 
+        console.log("payment intent res", res);
+        console.log("payment intent res.data", res.data);
+        console.log("payment intent res.data.clientSecret", res.data.clientSecret);
+
         setClientSecret(res.data.clientSecret);
       } catch (err: unknown) {
         // showError(err.response?.data?.message || "Payment failed");
