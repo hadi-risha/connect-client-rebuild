@@ -14,7 +14,6 @@ const InstructorCancelledSessions = () => {
 
   useEffect(() => {
     getinstructorBookedSessionsApi("cancelled").then((res) => {
-      console.log(res.data.bookings)
       dispatch(setInstructorBookings(res.data.bookings));
     });
   }, [dispatch]);

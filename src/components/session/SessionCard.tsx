@@ -22,8 +22,6 @@ interface SessionCardProps {
   };
 }
 
-
-
 export default function SessionCard({
   session,
   primaryAction,

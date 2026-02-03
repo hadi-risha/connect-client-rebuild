@@ -1,7 +1,7 @@
 // flow (component -> api -> axios -> backend)
+import api from './axios'
 import type { AiRatingsApiResponse } from '../types/adminAiRating';
 import type { DashboardData } from '../types/adminDashboard';
-import api from './axios'
 
 export const adminLoginApi = (data: { email: string; password: string }) =>
   api.post('/auth/admin/login', data)

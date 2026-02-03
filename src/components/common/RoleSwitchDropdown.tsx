@@ -1,4 +1,3 @@
-// common - Reusable UI used inside layouts
 import { useState } from "react";
 import { Role } from "../../constants/roles";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";

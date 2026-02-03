@@ -1,4 +1,4 @@
-// API calls  (component -> auth.service -> axios -> backend)
+// API calls  (component -> auth.service -> api -> axios -> backend)
 import api from './axios'
 
 export const registerApi = (data: {
@@ -23,7 +23,6 @@ export const forgotPasswordApi = (data: { email: string;}) =>
 
 export const validateResetTokenApi = (data: { token: string; email: string;}) =>
   api.post('/auth/validate-reset-token', data)  
-
 
 export const resetPasswordApi = (data: { email: string; token: string; password: string; confirmPassword: string;}) =>
   api.post('/auth/reset-password', data)

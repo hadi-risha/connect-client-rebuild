@@ -2,7 +2,6 @@ import type { StudentBooking } from "../features/booking/booking.types";
 import api from "./axios";
 import type { CancelBookingPayload } from "../types/cancelBookingPayload";
 
-
 export interface CreatePaymentIntentPayload {
   sessionId: string;
   timeSlot: string;      

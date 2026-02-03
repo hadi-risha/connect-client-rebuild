@@ -36,33 +36,33 @@ export const ChatSidebar = () => {
 
   return (
     <aside className="w-80 border-r flex flex-col bg-white">
-  <div className="p-4 border-b space-y-3">
-    
-    {/* HEADER ROW */}
-    <div className="flex items-center justify-between">
-      <p className="font-semibold text-lg">Messages</p>
+      <div className="p-4 border-b space-y-3">
+        
+        {/* HEADER ROW */}
+        <div className="flex items-center justify-between">
+          <p className="font-semibold text-lg">Messages</p>
 
-      <Link
-        to="/user/chat/new"
-        className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 transition"
-      >
-        <Plus className="w-5 h-5 text-blue-600" />
-      </Link>
-    </div>
+          <Link
+            to="/user/chat/new"
+            className="p-2 rounded-lg bg-blue-100 hover:bg-blue-200 transition"
+          >
+            <Plus className="w-5 h-5 text-blue-600" />
+          </Link>
+        </div>
 
-    {/* SEARCH BAR */}
-    {showSearch && (
-      <input
-        type="text"
-        placeholder="Search chats..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full px-3 py-2 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    )}
-  </div>
+        {/* SEARCH BAR */}
+        {showSearch && (
+          <input
+            type="text"
+            placeholder="Search chats..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        )}
+      </div>
 
-  <ChatList chats={filteredChats} />
-</aside>
+      <ChatList chats={filteredChats} />
+    </aside>
   );
 };

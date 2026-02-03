@@ -1,4 +1,4 @@
-// These endpoints apply to every logged-in user, regardless of role.
+// These endpoints apply to every logged-in user, regardless of role
 import api from "./axios";
 import { Role } from "../constants/roles";
 
@@ -43,12 +43,16 @@ export const searchSessionsApi = (q: string) =>
 // ai 
 export const aiChatApi = (text: string) => 
   api.post("/user/ai/chat", {text}); 
+
 export const getUserAiChatsApi = () => 
   api.get("/user/ai/chats"); 
+
 export const rateAiApi = (rating: number) => 
   api.post("/user/ai/rating", {rating}); 
+
 export const getAiChatApi = (chatId: string) => 
   api.get(`/user/ai/chat/${chatId}`); 
+
 export const aiChatUpdateApi = (chatId: string, question?: string, answer?: string, img?: string) =>
   api.put(`/user/ai/chat/${chatId}`, { question, answer, img });  
 

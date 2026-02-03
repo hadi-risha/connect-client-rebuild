@@ -4,9 +4,8 @@ import { Role } from "../constants/roles";
 
 export default function RootRedirect() {
   const { user } = useAppSelector((s) => s.user);
-    const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
 
-  // not logged in
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }

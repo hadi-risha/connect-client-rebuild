@@ -1,4 +1,4 @@
-// 2️⃣ Validators you can reuse
+// reusing validators
 export const required = (fieldName: string) => (value: string) =>
   value.trim() ? null : `${fieldName} is required`;
 
@@ -8,8 +8,6 @@ export const minLength = (fieldName: string, length: number) => (value: string) 
 export const onlyLetters = (fieldName: string) => (value: string) =>
   /^[A-Za-z\s]+$/.test(value.trim()) ? null : `${fieldName} must contain letters only`;
 
-// export const matchField = (fieldName: string, matchWith: string) => (value: string, values: Record<string, string>) =>
-//   value === values[matchWith] ? null : `${fieldName} must match ${matchWith}`;
 export const matchField =
   <T, K extends keyof T>(fieldName: string, matchWith: K) =>
   (value: T[K], values: T): string | null => {

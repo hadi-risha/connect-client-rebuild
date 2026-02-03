@@ -1,5 +1,3 @@
-// i dont think we need it and this is how we handle read reciept
-
 type Props = {
   status: "SENT" | "READ" | null;
 };

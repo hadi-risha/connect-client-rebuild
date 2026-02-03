@@ -37,8 +37,6 @@ export const useForm = <T extends object>(initial: FormConfig<T>) => {
     if (type === "checkbox" && "checked" in e.target) {
       // Only HTMLInputElement has checked
       newValue = e.target.checked as T[keyof T];
-    // } else if (type === "number") {
-    //   newValue = (Number(value) as unknown) as T[keyof T];
     } else {
       newValue = value as T[keyof T]; // string for text inputs, textarea, select
     }

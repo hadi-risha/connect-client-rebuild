@@ -46,7 +46,6 @@ const NotificationForm = ({
       let message = "Something went wrong";
 
       if (axios.isAxiosError(err)) {
-        // err is now typed as AxiosError
         message = err.response?.data?.message || message;
       } else if (err instanceof Error) {
         message = err.message;

@@ -113,17 +113,13 @@ export const ChatHeader = () => {
         const res = await addGroupMemberApi(chat._id, selectedUsers);
         const updatedChat = res.data.chat;
 
-        // update chat in sidebar list
-        dispatch(updateChat(updatedChat));
-
-        // update currently open chat
-        dispatch(selectChat(updatedChat));
+        dispatch(updateChat(updatedChat)); // sidebar list
+        dispatch(selectChat(updatedChat)); //currently open chat
         showSuccess("Member(s) added");
       }
 
       if (modalType === "remove") {
         if (!selectedUsers.length) return showError("Select at least one member");
-
         const updatedChat = { ...chat };
 
         for (const userId of selectedUsers) {

@@ -45,7 +45,6 @@ type NewPromptProps = {
   data?: Chat; // keep flexible — history, _id etc are dynamic
 };
 
-
 const NewPrompt = ({ data }: NewPromptProps) => {
   const endRef = useRef<HTMLDivElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -68,7 +67,6 @@ const NewPrompt = ({ data }: NewPromptProps) => {
   }, [question, answer, data]);
 
   // save AI response
-  // const mutation = useMutation({
   const mutation = useMutation<unknown, Error, MutationPayload>({
     mutationFn: async ({ question, answer, img }) => {
       if (!data?._id) throw new Error("Chat not ready");
@@ -94,7 +92,6 @@ const NewPrompt = ({ data }: NewPromptProps) => {
 
   const add = async (text: string, isInitial: boolean) => {
     if (!isInitial) setQuestion(text);
-
     setAnswer("");
     setIsGenerating(true);
 
@@ -109,7 +106,6 @@ const NewPrompt = ({ data }: NewPromptProps) => {
 
       const result = (await callGeminiSdk({ messages })) ?? "";
       setAnswer(result);
-
 
       await mutation.mutateAsync({
         question: isInitial ? undefined : text, 

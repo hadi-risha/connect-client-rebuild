@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './index.css'
-import './utils/dayjs' // DAYJS CONFIG LOADED HERE
+import './utils/dayjs' // dayjs config loaded here
 
 import { Provider } from 'react-redux'
 import { store } from './app/store'

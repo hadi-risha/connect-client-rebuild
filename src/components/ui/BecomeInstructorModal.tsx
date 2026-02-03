@@ -3,7 +3,6 @@ import { useForm } from "../../hooks/useForm";
 import { required, minLength } from "../../utils/validators";
 import { useImageInput } from "../../hooks/useImageInput";
 import { useAppSelector } from "../../hooks/redux";
-// import { Role } from "../../constants/roles";
 
 interface BecomeInstructorData {
   role: "instructor";
@@ -57,7 +56,6 @@ const BecomeInstructorModal = ({ isOpen, onConfirm, onCancel }: Props) => {
       removePhoto: image.removed,
     });
   };
-
 
   return (
     <Modal

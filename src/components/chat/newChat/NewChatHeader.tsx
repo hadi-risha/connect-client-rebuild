@@ -23,8 +23,6 @@ export const NewChatHeader = ({ query, onQueryChange }: Props) => {
           <Plus size={16} />
           Create group
         </button>
-
-
       </div>
 
       {/* SEARCH */}

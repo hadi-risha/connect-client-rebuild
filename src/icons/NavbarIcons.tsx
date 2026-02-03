@@ -5,11 +5,9 @@ export function AkarIconsPointerRightFill(props: SVGProps<SVGSVGElement>) {
 	return (<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}><path fill="#625F7C" fillRule="evenodd" d="M17.9 4.2A3 3 0 0 0 15.5 3h-11a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h11a3 3 0 0 0 2.4-1.2l4.5-6a3 3 0 0 0 0-3.6z" clipRule="evenodd"></path></svg>);
 }
 
-
 export function IconParkOutlineHandleRound(props: SVGProps<SVGSVGElement>) {
 	return (<svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 48 48" {...props}><g fill="none" stroke="#190AA2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4}><circle cx={24} cy={24} r={20}></circle><circle cx={24} cy={24} r={12}></circle></g></svg>);
 }
-
 
 export function IconParkOutlineLeft(props: SVGProps<SVGSVGElement>) {
 	return (<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.4em" viewBox="0 0 48 48" {...props}><path fill="none" stroke="#190AA2" strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M31 36L19 24l12-12"></path></svg>);

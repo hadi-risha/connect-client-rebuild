@@ -12,8 +12,7 @@ export const ReactionBar = ({ messageId, reactions }: Props) => {
   const chatId = useAppSelector(state => state.chat.selectedChat?._id);
 
   if (!reactions.length || !myId) return null;
-
- 
+  
   // normalize reactions so current user
   // appears in ONLY ONE emoji (latest one)
   let myReactionEmoji: string | null = null;

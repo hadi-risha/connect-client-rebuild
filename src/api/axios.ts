@@ -2,7 +2,6 @@
 // What interceptor is for 
 // NOT for page refresh
 // ONLY for expired access token during API calls
-
 import axios from "axios";
 import { config } from "../config";
 import {store} from "../app/store";

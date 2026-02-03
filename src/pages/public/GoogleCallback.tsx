@@ -20,7 +20,6 @@ const GoogleCallback = () => {
     // Extract token from URL
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get("accessToken");
-    console.log("accessToken in googlecallback page", accessToken)
 
     if (!accessToken) {
       console.error("No access token in URL");

@@ -59,7 +59,7 @@ const ResetPassword = () => {
       await validateResetTokenApi({ email, token });
       setIsTokenValid(true);
     } catch(err) {
-        console.log("token error", err)
+      console.log("token error", err)
       setShowInvalidModal(true);
     } finally {
       setIsCheckingToken(false);

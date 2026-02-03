@@ -1,4 +1,3 @@
-// utils/getErrorMessage.ts
 import axios from "axios";
 
 export const getErrorMessage = (error: unknown): string => {

@@ -12,11 +12,6 @@ export const setSession = async (dispatch: AppDispatch) => {
   try {
     const res = await getProfileApi();
     const data = res.data as ProfileResponse;
-
-    console.log("res in setSession ", res)
-    console.log("res.data in setSession ", data)
-    console.log("res.data.user in setSession ", data.user)
-
     dispatch(setUser({ user: data.user }));
   } catch (err) {
     console.error("Failed to fetch profile", err);

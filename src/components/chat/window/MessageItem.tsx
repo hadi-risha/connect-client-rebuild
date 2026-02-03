@@ -15,13 +15,10 @@ export const MessageItem = ({ message }: Props) => {
   const myId = useAppSelector(state => state.user.user?._id);
   const selectedChat = useAppSelector(state => state.chat.selectedChat);
 
-  // let isMine = message.sender?._id === myId;
-  // if (!isMine) isMine = (message).sender === myId;
   const isMine =
   typeof message.sender === "string"
     ? message.sender === myId
     : message.sender._id === myId;
-
 
   const [open, setOpen] = useState(false);
   const [showPicker, setShowPicker] = useState(false);

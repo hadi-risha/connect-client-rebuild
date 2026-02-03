@@ -109,7 +109,6 @@ export default function App() {
             <Route path="dashboard" element={<AiDashboardPage />} />
             <Route path="dashboard/chats/:id" element={<AiChatPage />} />
           </Route>
-          {/* <Route path="/user/video/session/:bookingId" element={<ZegoVideoCall />} />  */}
 
           <Route element={<ChatLayout />}>
             <Route path="/user/chat" element={<ChatPage />} /> 

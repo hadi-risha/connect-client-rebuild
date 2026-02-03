@@ -1,4 +1,3 @@
-// common - Reusable UI used inside layouts
 import { useRef, useState } from "react";
 import SearchOverlay from "./SearchOverlay";
 

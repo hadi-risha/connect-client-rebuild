@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 
 export const MessageList = () => {
   const messages = useAppSelector(state => state.chat.messages);
-
   const containerRef = useRef<HTMLDivElement | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);

@@ -1,4 +1,3 @@
-// we used it somewhere, but thats not actually how we handling date
 export const isSameDay = (a: Date, b: Date) =>
   a.toDateString() === b.toDateString();
 

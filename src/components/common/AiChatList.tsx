@@ -32,14 +32,14 @@ const AiChatList = () => {
 
   const submitAiRating = async (rating: number) => {
     try {
-        await rateAiApi(rating)
-        showSuccess("Thanks for your feedback");
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          throw new Error(err.message || "Failed to submit rating");
-        }
-        throw new Error("Failed to submit rating");
+      await rateAiApi(rating)
+      showSuccess("Thanks for your feedback");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new Error(err.message || "Failed to submit rating");
       }
+      throw new Error("Failed to submit rating");
+    }
   };
 
   return (

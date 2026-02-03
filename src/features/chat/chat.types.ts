@@ -15,7 +15,7 @@ export interface MessageReaction {
 export interface Message {
   _id: string;
   chatRoom: string;
-  sender: ChatUser; // given the str for fsllbsck
+  sender: ChatUser; // given the str for fallback
   type: "text" | "image" | "audio";
   content?: string;
   image?: { url: string };

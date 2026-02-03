@@ -1,10 +1,4 @@
-export const ImagePreview = ({
-  file,
-  onRemove,
-}: {
-  file: File;
-  onRemove: () => void;
-}) => {
+export const ImagePreview = ({file, onRemove,}: { file: File; onRemove: () => void; }) => {
   const url = URL.createObjectURL(file);
 
   return (
